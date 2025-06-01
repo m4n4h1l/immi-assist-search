@@ -1,0 +1,18 @@
+{% extends "clients/base.html" %}
+
+{% block title %}Logged Out - Immi-Assist{% endblock %}
+
+{% block content %}
+    <div class="logout-container">
+        <h1>You have been successfully logged out.</h1>
+        <p>Thank you for your time and contribution.</p>
+        <a href="{% url 'login' %}" class="button">Log back in</a>
+    </div>
+
+    <style>
+        .logout-container {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+    </style>
+{% endblock %}

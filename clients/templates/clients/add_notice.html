@@ -1,0 +1,83 @@
+{% extends "clients/base.html" %}
+
+{% block title %}Add Notice - Immi-Assist{% endblock %}
+
+{% block content %}
+    <h1>Add New Notice or Receipt</h1>
+    <p>Fill out the details below. Fields in "Line 2" can be left blank for simple notices.</p>
+
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'dashboard' %}">&laquo; Back to Dashboard</a>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-section">
+            <h3>Line 1</h3>
+            <div class="form-field">
+                <label for="{{ form.case.id_for_label }}">Case:</label>
+                {{ form.case }}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.entry_date.id_for_label }}">Entry Date:</label>
+                {{ form.entry_date }}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.form_type.id_for_label }}">Form/Notice Type:</label>
+                {{ form.form_type }}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.i765_category.id_for_label }}">I-765 Category (if applicable):</label>
+                {{ form.i765_category }}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Line 2 (for Receipts/Fee Waivers)</h3>
+            <div class="form-field">
+                <label for="{{ form.receipt_number.id_for_label }}">Receipt Number:</label>
+                {{ form.receipt_number }}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.received_date.id_for_label }}">Received Date:</label>
+                {{ form.received_date }}
+            </div>
+            <div class="form-field">
+                <label for="{{ form.processing_center.id_for_label }}">Processing Center:</label>
+                {{ form.processing_center }}
+            </div>
+        </div>
+
+        <button type="submit">Save Notice</button>
+    </form>
+
+    <style>
+        /* Styles for the form on this page */
+        .form-section {
+            border: 1px solid #ddd;
+            padding: 1.5em;
+            margin-bottom: 1.5em;
+            border-radius: 5px;
+            background-color: #fcfcfc;
+        }
+        .form-field {
+            margin-bottom: 1em;
+        }
+        .form-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5em;
+            color: #555;
+        }
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+
+{% endblock %}

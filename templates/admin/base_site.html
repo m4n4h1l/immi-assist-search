@@ -1,0 +1,73 @@
+{% extends "admin/base_site.html" %}
+
+{% block branding %}
+<div id="site-name">
+    <a href="{% url 'admin:index' %}">Alliance for African Assistance Client Management System</a>
+</div>
+{% endblock %}
+{% block extrastyle %}
+{{ block.super }}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --primary-green: #28a745;
+        --dark-green: #218838;
+    }
+
+    /* --- General Font and Colors --- */
+    body, td, th, caption {
+        font-family: 'Nunito Sans', sans-serif !important;
+    }
+    #site-name a {
+        font-weight: 700 !important; /* Make our new header text bold */
+    }
+    a:link, a:visited {
+        color: var(--primary-green) !important;
+    }
+    a:hover {
+        color: var(--dark-green) !important;
+    }
+
+    /* --- Header --- */
+    #header {
+        background: var(--primary-green) !important;
+        color: white;
+    }
+    #header a:link, #header a:visited {
+        color: white !important;
+    }
+
+    /* --- Buttons and Modules --- */
+    .module h2, .module caption, .inline-group h2 {
+        background: #eaf6ec !important; /* A very light green */
+        color: var(--dark-green);
+    }
+    .button, input[type=submit], input[type=button], .submit-row input {
+        background: var(--primary-green) !important;
+        border-radius: 4px !important;
+    }
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover {
+        background: var(--dark-green) !important;
+    }
+    .button.default, input[type=submit].default {
+        background: #6c757d !important;
+    }
+    .button.default:hover, input[type=submit].default:hover {
+        background: #5a6268 !important;
+    }
+
+    /* --- Responsiveness --- */
+    @media (max-width: 767px) {
+        #header {
+            padding: 10px 15px !important;
+        }
+        .main > .content {
+            padding: 10px !important;
+        }
+    }
+</style>
+{% endblock %}

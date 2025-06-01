@@ -1,0 +1,100 @@
+{% extends "clients/base.html" %}
+
+{% block title %}{{ client.first_name }} {{ client.last_name }}'s File - Immi-Assist{% endblock %}
+
+{% block content %}
+    <h1>Client File: {{ client.first_name }} {{ client.last_name }}</h1>
+
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'dashboard' %}">&laquo; Back to Dashboard</a>
+    </div>
+
+    <div class="section">
+        <h2>Personal Information</h2>
+        <dl class="detail-grid">
+            <dt>Full Name:</dt> <dd>{{ client.first_name }} {{ client.last_name }}</dd>
+            <dt>Relationship:</dt> <dd>{{ client.get_relationship_type_display }}</dd>
+            {% if client.principal_applicant %}
+                <dt>Principal Applicant:</dt> 
+                <dd>
+                    <a href="{% url 'client_detail' client.principal_applicant.id %}">
+                        {{ client.principal_applicant }}
+                    </a>
+                </dd>
+            {% endif %}
+            <dt>Date of Birth:</dt> <dd>{{ client.date_of_birth }}</dd>
+            <dt>A-Number:</dt> <dd>{{ client.alien_number|default:"N/A" }}</dd>
+            <dt>Phone Number:</dt> <dd>{{ client.phone_number|default:"N/A" }}</dd>
+        </dl>
+    </div>
+
+    {% if client.relationship_type == 'PRINCIPAL' and client.derivatives.all %}
+    <div class="section">
+        <h2>Family Members (Derivatives)</h2>
+        <ul>
+            {% for member in client.derivatives.all %}
+                <li>
+                    <a href="{% url 'client_detail' member.id %}">
+                        {{ member.first_name }} {{ member.last_name }}
+                    </a> ({{ member.get_relationship_type_display }})
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="section">
+        <h2>Immigration Cases &amp; Notices</h2>
+        {% for case in client.cases.all %}
+            <h3>Case: {{ case.case_name }}</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Form/Notice Type</th>
+                            <th>Receipt #</th>
+                            <th>Received Date</th>
+                            <th>Processing Center</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for notice in case.notices.all %}
+                        <tr>
+                            <td>{{ notice.form_type }}</td>
+                            <td>{{ notice.receipt_number|default:"N/A" }}</td>
+                            <td>{{ notice.received_date|default:"N/A" }}</td>
+                            <td>{{ notice.processing_center|default:"N/A" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="4">No notices or receipts found for this case.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% empty %}
+            <p>No immigration cases found for this client.</p>
+        {% endfor %}
+    </div>
+
+    <style>
+        /* Styles specific to this detail page for better layout */
+        .section {
+            margin-bottom: 1.5rem;
+            background-color: #fcfcfc;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 1em;
+        }
+        .detail-grid dt {
+            font-weight: bold;
+            color: #555;
+        }
+        @media (max-width: 768px) {
+            .detail-grid {
+                grid-template-columns: 1fr; /* Stack details on mobile */
+            }
+        }
+    </style>
+{% endblock %}

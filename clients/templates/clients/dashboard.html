@@ -1,0 +1,38 @@
+{% extends "clients/base.html" %}
+
+{% block title %}Dashboard - Immi-Assist{% endblock %}
+
+{% block content %}
+    <h1>Client Dashboard</h1>
+    <p>A complete list of all principal applicants in the system.</p>
+
+    <hr style="margin: 2rem 0;">
+    <div class="table-container">
+        <table style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 12px; text-align: left;">Name</th>
+                    <th style="padding: 12px; text-align: left;">A-Number</th>
+                    <th style="padding: 12px; text-align: left;">Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                <tr>
+                    <td style="padding: 12px;">
+                        <a href="{% url 'client_detail' client.id %}">
+                            <strong>{{ client.last_name }}, {{ client.first_name }}</strong>
+                        </a>
+                    </td>
+                    <td style="padding: 12px;">{{ client.alien_number|default:"N/A" }}</td>
+                    <td style="padding: 12px;">{{ client.cases.count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="padding: 12px; text-align: center;">No clients found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
